@@ -13,19 +13,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        java: [ '17' ]
+    container:
+      image: dp.apps.rancher.io/containers/gradle:8-openjdk17
+      credentials:
+        username: ${{ secrets.appco_username }}
+        password: ${{ secrets.appco_token }}
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK ${{matrix.java}}
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{matrix.java}}
-          distribution: 'adopt'
-          cache: maven
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-      - name: Build with Gradle
+      - name: Build with Gradle        
         run: ./gradlew build
