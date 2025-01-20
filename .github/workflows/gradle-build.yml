@@ -11,15 +11,17 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    
     container:
       image: dp.apps.rancher.io/containers/gradle:8-openjdk17
+      options: --user root
       credentials:
         username: ${{ secrets.appco_username }}
         password: ${{ secrets.appco_token }}
 
     steps:
       - uses: actions/checkout@v4
+     
       - name: Build with Gradle        
         run: ./gradlew build
